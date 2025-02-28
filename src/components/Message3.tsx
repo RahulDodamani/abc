@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import Img1 from './images/img1.jpeg';
 import Img2 from './images/img2.jpeg';
 import Img3 from './images/img3.jpeg';
@@ -18,48 +19,66 @@ import Img17 from './images/img17upd.jpeg';
 import Vid1 from './images/vid1.mp4';
 import Vid2 from './images/vid2.mp4';
 import Vid3 from './images/vid3.mp4';
-import React from "react";
+import Audio1 from './updsong.mp3';
 
 const Message3: React.FC = () => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const playAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.volume = 0.5; // Set volume (optional)
+        audioRef.current.play().catch((error) => console.log("Autoplay blocked:", error));
+      }
+    };
+
+    // Autoplay on load
+    playAudio();
+
+    // Ensure autoplay works after user interacts with the page
+    document.addEventListener("click", playAudio);
+
+    return () => {
+      document.removeEventListener("click", playAudio);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-green-100 to-blue-100 p-6">
+      
+      {/* 🎉 Header Section */}
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-5xl font-bold text-blue-600">
           Another Surprise Awaits! 🎊
         </h1>
         <p className="mt-4 text-lg md:text-xl text-gray-700">
-               Keep shining and smiling! 🌟💖🎂
+          Keep shining and smiling! 🌟💖🎂
         </p>
       </div>
 
       {/* 📸 Collage Section */}
       <div className="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-5xl">
-        {/* Row 1 */}
+        {/* Images */}
         <img src={Img1} alt="Memory 1" className="w-full h-60 object-cover rounded-lg shadow-md" />
         <img src={Img2} alt="Memory 2" className="w-full h-60 object-cover rounded-lg shadow-md" />
-        <img src={Img6} alt="Memory 3" className="w-full h-60 object-cover rounded-lg shadow-md" />
+        <img src={Img6} alt="Memory 3" className="w-full h-72 object-cover rounded-lg shadow-md" />
         <img src={Img4} alt="Memory 4" className="w-full h-60 object-cover rounded-lg shadow-md" />
 
-        {/* Row 2 */}
         <img src={Img5} alt="Memory 5" className="w-full h-60 object-cover rounded-lg shadow-md col-span-2" />
         <img src={Img3} alt="Memory 6" className="w-full h-60 object-cover rounded-lg shadow-md col-span-2" />
 
-        {/* Row 3 */}
         <img src={Img7} alt="Memory 7" className="w-full h-60 object-cover rounded-lg shadow-md" />
         <img src={Img8} alt="Memory 8" className="w-full h-60 object-cover rounded-lg shadow-md col-span-2" />
         <img src={Img9} alt="Memory 9" className="w-full h-60 object-cover rounded-lg shadow-md" />
 
-        {/* Row 4 */}
         <img src={Img10} alt="Memory 10" className="w-full h-60 object-cover rounded-lg shadow-md col-span-2" />
-        <img src={Img17} alt="Memory 11" className="w-full h-60 object-cover rounded-lg shadow-md" />
+        <img src={Img17} alt="Memory 11" className="w-full h-72 w-80 object-cover rounded-lg shadow-md" />
         <img src={Img12} alt="Memory 12" className="w-full h-60 object-cover rounded-lg shadow-md" />
 
-        {/* Row 5 */}
         <img src={Img13} alt="Memory 13" className="w-full h-60 object-cover rounded-lg shadow-md" />
         <img src={Img14} alt="Memory 14" className="w-full h-60 object-cover rounded-lg shadow-md col-span-2" />
         <img src={Img15} alt="Memory 15" className="w-full h-60 object-cover rounded-lg shadow-md" />
 
-        {/* Row 6 */}
         <img src={Img16} alt="Memory 16" className="w-full h-60 object-cover rounded-lg shadow-md" />
         <img src={Img11} alt="Memory 17" className="w-full h-60 object-cover rounded-lg shadow-md col-span-3" />
       </div>
@@ -91,6 +110,19 @@ const Message3: React.FC = () => {
           muted
         />
       </div>
+
+      {/* 🎵 Audio Section */}
+      <div className="mt-8 max-w-5xl text-center">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Enjoy Some Music 🎶</h2>
+
+        {/* Autoplay Audio */}
+        <audio ref={audioRef} className="w-full" autoPlay loop>
+          <source src={Audio1} type="audio/mp3" />
+          Your browser does not support the audio element.
+        </audio>
+
+      </div>
+
     </div>
   );
 };
